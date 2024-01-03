@@ -1,0 +1,11 @@
+**/__pycache__/
+
+data/datasets
+
+quantization/clip_cache/
+
+test/gsm8k/preds/
+test/humaneval/preds/
+
+train/ckpts/
+train/logs/
