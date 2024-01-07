@@ -16,7 +16,8 @@ def get_calib_dataset(datasets="pileval", tokenizer=None, n_samples=128, block_s
         return get_calib_dataset_code(tokenizer=tokenizer, n_samples=n_samples, block_size=block_size)
 
 def get_pile_dataset(tokenizer=None, n_samples=512, block_size=512):
-    dataset = load_dataset("json", data_files="/root/model/llm-awq/val.jsonl.zst", split="train")
+    # dataset = load_dataset("json", data_files="/root/model/llm-awq/val.jsonl.zst", split="train")
+    dataset = load_dataset("mit-han-lab/pile-val-backup", split="validation")
     dataset = dataset.map(lambda x: {
         'text': x['text']
     })
@@ -45,7 +46,9 @@ def get_pile_dataset(tokenizer=None, n_samples=512, block_size=512):
 
 # TODO: Don't do spliting when code and gsm8k
 def get_calib_dataset_code(tokenizer=None, n_samples=512, block_size=512):
-    dataset = load_dataset("json", data_files="/root/model/datasets/code/EvolInstruct-Code-80k.json", split="train")
+    # dataset = load_dataset("json", data_files="/root/model/datasets/code/EvolInstruct-Code-80k.json", split="train")
+    dataset = load_dataset("json", data_files="nickrosh/Evol-Instruct-Code-80k-v1", split="train")
+
     dataset = dataset.shuffle(seed=42)
     samples = []
     n_run = 0
@@ -73,6 +76,7 @@ def get_calib_dataset_code(tokenizer=None, n_samples=512, block_size=512):
     return [cat_samples[:, i*block_size:(i+1)*block_size] for i in range(n_split)]
 
 def get_calib_dataset_gsm8k(tokenizer=None, n_samples=512, block_size=512):
+    # download from here: https://github.com/OFA-Sys/gsm8k-ScRel/blob/main/data/train_use.jsonl
     data_path = "/root/model/gsm8k-ScRel/data/train_use.jsonl"
 
     with open(data_path, 'r') as f:

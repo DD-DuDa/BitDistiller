@@ -66,8 +66,8 @@ QA_PROMPT = (
 
 class TruthfulQAMultipleChoice(Task):
     VERSION = 1
-    # DATASET_PATH = "truthful_qa"
-    DATASET_PATH = "/root/model/datasets/truthful_qa"
+    DATASET_PATH = "truthful_qa"
+    # DATASET_PATH = "/root/model/datasets/truthful_qa"
     DATASET_NAME = "multiple_choice"
 
     def has_training_docs(self):

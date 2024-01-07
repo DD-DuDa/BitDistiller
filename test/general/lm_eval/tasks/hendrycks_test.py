@@ -103,8 +103,8 @@ def create_task(subject):
 
 class GeneralHendrycksTest(MultipleChoiceTask):
     VERSION = 1
-    # DATASET_PATH = "cais/mmlu"
-    DATASET_PATH = "/root/model/LLMEvalution/evaluation_fsTask/cais/mmlu"
+    DATASET_PATH = "cais/mmlu"
+    # DATASET_PATH = "/root/model/LLMEvalution/evaluation_fsTask/cais/mmlu"
     # DATASET_PATH = "/root/model/datasets/cais___mmlu"
     DATASET_NAME = None
 

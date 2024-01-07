@@ -5,7 +5,7 @@ from tqdm import tqdm
 import bitsandbytes as bnb
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 import sys
-sys.path.append("/root/model/BitDistiller/quantization")
+sys.path.append("../quantization")
 from quantizer import *
 
 # from ppq.core import CUDA

@@ -13,8 +13,11 @@ from test_utils import pseudo_quantize_model_weight
 def get_wikitext2(nsamples, seed, seqlen, model):
     from datasets import load_dataset
 
-    traindata = load_dataset('/root/model/datasets/wikitext/wikitext-2-raw-v1', split='train')
-    testdata = load_dataset('/root/model/datasets/wikitext/wikitext-2-raw-v1', split='test')
+    # traindata = load_dataset('/root/model/datasets/wikitext/wikitext-2-raw-v1', split='train')
+    # testdata = load_dataset('/root/model/datasets/wikitext/wikitext-2-raw-v1', split='test')
+
+    traindata = load_dataset('wikitext', 'wikitext-2-raw-v1', split='train')
+    testdata = load_dataset('wikitext', 'wikitext-2-raw-v1', split='test')
 
     try:
         tokenizer = AutoTokenizer.from_pretrained(model, use_fast=False)

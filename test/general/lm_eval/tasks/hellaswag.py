@@ -29,8 +29,8 @@ _CITATION = """
 
 class HellaSwag(MultipleChoiceTask):
     VERSION = 0
-    # DATASET_PATH = "hellaswag"
-    DATASET_PATH = "/root/model/datasets/hellaswag/hellaswag" 
+    DATASET_PATH = "hellaswag"
+    # DATASET_PATH = "/root/model/datasets/hellaswag/hellaswag" 
     DATASET_NAME = None
 
     def has_training_docs(self):

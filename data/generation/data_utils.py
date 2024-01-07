@@ -95,8 +95,8 @@ def extract_random_dataset(sources, targets, max_sample=None):
     return sources, targets
 
 def get_wiki_dataset(max_sample):
-    # wiki_dataset = load_dataset("wikitext", 'wikitext-2-raw-v1', split='train')
-    wiki_dataset = load_dataset("/root/model/datasets/wikitext/wikitext", 'wikitext-2-raw-v1', split='train')
+    wiki_dataset = load_dataset("wikitext", 'wikitext-2-raw-v1', split='train')
+    # wiki_dataset = load_dataset("/root/model/datasets/wikitext/wikitext", 'wikitext-2-raw-v1', split='train')
 
     wiki_long = []
     for text in wiki_dataset['text']:
@@ -125,8 +125,8 @@ def get_redpajama_dataset(max_sample):
 
 
 def get_alpaca_dataset(max_sample, tokenizer):
-    # alpaca_dataset = load_dataset("yahma/alpaca-cleaned", split='train')
-    alpaca_dataset = load_dataset("/root/model/datasets/alpaca-clean", split='train')
+    alpaca_dataset = load_dataset("yahma/alpaca-cleaned", split='train')
+    # alpaca_dataset = load_dataset("/root/model/datasets/alpaca-clean", split='train')
 
     prompt_input, prompt_no_input = ALPACA_PROMPT_DICT["prompt_input"], ALPACA_PROMPT_DICT["prompt_no_input"]
 
@@ -139,8 +139,8 @@ def get_alpaca_dataset(max_sample, tokenizer):
     return extract_random_dataset(sources, targets, max_sample)
 
 def get_alpaca_solar_dataset(max_sample, tokenizer):
-    # alpaca_dataset = load_dataset("yahma/alpaca-cleaned", split='train')
-    alpaca_dataset = load_dataset("/root/model/datasets/alpaca-clean", split='train')
+    alpaca_dataset = load_dataset("yahma/alpaca-cleaned", split='train')
+    # alpaca_dataset = load_dataset("/root/model/datasets/alpaca-clean", split='train')
 
     prompt_input, prompt_no_input = ALPACA_PROMPT_DICT_SOLAR["prompt_input"], ALPACA_PROMPT_DICT_SOLAR["prompt_no_input"]
 
@@ -153,8 +153,8 @@ def get_alpaca_solar_dataset(max_sample, tokenizer):
     return extract_random_dataset(sources, targets, max_sample)
 
 def get_openorca_solar_dataset(max_sample, tokenizer):
-    # alpaca_dataset = load_dataset("yahma/alpaca-cleaned", split='train')
-    openorca_dataset = load_dataset("/root/model/datasets/OpenOrca", split='train')
+    openorca_dataset = load_dataset("Open-Orca/OpenOrca", split='train')
+    #openorca_dataset = load_dataset("/root/model/datasets/OpenOrca", split='train')
 
     prompt_input, prompt_no_input = OPENORCA_PROMPT_DICT_SOLAR["prompt_input"], OPENORCA_PROMPT_DICT_SOLAR["prompt_no_input"]
 
@@ -189,8 +189,8 @@ def get_ultra_solar_dataset(max_sample, tokenizer):
     return extract_random_dataset(sources, targets, max_sample)
 
 def get_code_dataset(max_sample, tokenizer):
-    # code_dataset = load_dataset("nickrosh/Evol-Instruct-Code-80k-v1", split='train')
-    code_dataset = load_dataset('json', data_files="/root/model/datasets/code/EvolInstruct-Code-80k.json", split='train')
+    code_dataset = load_dataset("nickrosh/Evol-Instruct-Code-80k-v1", split='train')
+    # code_dataset = load_dataset('json', data_files="/root/model/datasets/code/EvolInstruct-Code-80k.json", split='train')
 
     prompt_input, prompt_no_input = CODE_PROMPT_DICT["prompt_input"], CODE_PROMPT_DICT["prompt_no_input"]
 
@@ -204,8 +204,8 @@ def get_code_dataset(max_sample, tokenizer):
     return extract_random_dataset(sources, targets, max_sample)
 
 def get_math_dataset(max_sample, tokenizer):
-    # math_dataset = load_dataset("meta-math/MetaMathQA-40K", split='train')
-    math_dataset = load_dataset('json', data_files="/root/model/acr_duda/gsm8k/data/MetaMath-40K.json", split='train')
+    math_dataset = load_dataset("meta-math/MetaMathQA-40K", split='train')
+    # math_dataset = load_dataset('json', data_files="/root/model/acr_duda/gsm8k/data/MetaMath-40K.json", split='train')
     prompt_no_input = MATH_PROMPT_DICT["prompt_no_input"]
 
     sources = [prompt_no_input.format_map(example) for example in math_dataset]

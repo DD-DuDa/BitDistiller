@@ -39,8 +39,8 @@ INVALID_ANS = "[invalid]"
 
 class GradeSchoolMath8K(Task):
     VERSION = 0
-    # DATASET_PATH = "gsm8k"
-    DATASET_PATH = "/root/model/datasets/gsm8k"
+    DATASET_PATH = "gsm8k"
+    # DATASET_PATH = "/root/model/datasets/gsm8k"
     DATASET_NAME = "main"
 
     def has_training_docs(self):

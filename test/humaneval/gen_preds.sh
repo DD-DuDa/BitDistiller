@@ -24,7 +24,7 @@ for ((i = 0; i < $gpu_num; i++)); do
   echo 'Running process #' ${i} 'from' $start_index 'to' $end_index 'on GPU' ${gpu}
   ((index++))
   (
-    CUDA_VISIBLE_DEVICES=$gpu /root/model/miniconda3/envs/qat/bin/python humaneval_gen.py --model ${model} \
+    CUDA_VISIBLE_DEVICES=$gpu python humaneval_gen.py --model ${model} \
       --start_index ${start_index} --end_index ${end_index} --temperature ${temp} --greedy_decode\
       --num_seqs_per_iter ${num_seqs_per_iter} --N ${pred_num} --max_len ${max_len} --output_path ${output_path} \
       --quant_type int --bits 2 --group_size 128
