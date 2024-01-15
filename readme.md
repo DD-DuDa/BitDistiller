@@ -26,7 +26,7 @@
 Our results is running by following 3 steps:
 
 ### 2.1. Asymmetric Quantization
-* Determine the type of quantization: use `nf3` for 3 bits and `int` for 2 bits. Set `w_bit` and `quant_type accordingly.
+* Determine the type of quantization: use `nf3` for 3 bits and `int` for 2 bits. Set `w_bit` and `quant_type` accordingly.
   * We use Asymmetric format (see Asymmetric NormFloat in [SteN2F3Quantizer](https://github.com/DD-DuDa/BitDistiller/blob/main/quantization/quantizer.py#L141))
 * Perform clipping before training and save the clipping values using dump_clip (see `quantization/autoclip.py`).
 
