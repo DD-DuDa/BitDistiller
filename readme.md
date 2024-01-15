@@ -1,6 +1,6 @@
 # BitDistiller: Unleashing the Potential of Sub-4-Bit LLMs via Self-Distillation
 
-**Effective ** sub-4-bit weight quantization (3 / 2 bits) for LLMs with **QAT-based Self-Distillation**.
+**Effective** sub-4-bit weight quantization (3 / 2 bits) for LLMs with **QAT-based Self-Distillation**.
 
 ![overview](./imgs/overview.jpg)
 
