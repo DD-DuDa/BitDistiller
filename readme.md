@@ -22,6 +22,28 @@
 * pip install -r requirement.txt
 
 ## 2. Running
+
+Our results is running by following 3 steps:
+
+### 2.1. Asymmetric Quantization
+* 我们需要确定量化的类型，3 bit 使用的是 ```nf3```, 2 bit 使用的是 ```int```, 你需要分别对 ```w_bit``` 和 ```quant_type``` 进行设置。
+  * 我们使用的都是 Asymmetric 的格式 (Asymmetric NormFloat 详见 [SteN2F3Quantizer](https://github.com/DD-DuDa/BitDistiller/blob/main/quantization/quantizer.py#L141))
+* 我们在训练前需要进行 Clipping 的操作，通过 ```dump_clip``` 保存 clipping 的 value (详见 ```quantization/autoclip.py```)。
+
+** Note: 仅仅采用这个步骤，也可以达到甚至超过 GPTQ, AWQ 的低比特量化结果。
+
+### 2.2. Teacher Generation Data
+* 我们进行 QAT 的数据采用的是 Teacher Model (BF16) 生成的数据，根据不同模型采用的不同数据。(详见 ```data/generation```)
+
+**  TODO: Use VLLM to accerlerate this step.
+
+### 2.3. KD-base QAT
+
+
+
+---
+### Example Srcipts
+
 <details>
   <summary>LLaMA-2</summary>
   

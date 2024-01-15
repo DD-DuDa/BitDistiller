@@ -38,7 +38,6 @@ def jload(f, mode="r"):
     f.close()
     return jdict
 
-TRAINING_MAX_LENGTH = 1024
 
 IGNORE_INDEX = -100
 DEFAULT_PAD_TOKEN = "[PAD]"
@@ -73,7 +72,7 @@ class TrainingArguments(transformers.TrainingArguments):
     )
     overwrite_output_dir: bool = field(default=False)
     bits: int = field(
-        default=16,
+        default=2,
         metadata={"help": "How many bits to use."}
     )
     q_group_size: int = field(
@@ -141,7 +140,7 @@ def _tokenize_fn(strings: Sequence[str], tokenizer: transformers.PreTrainedToken
             text,
             return_tensors="pt",
             padding="longest",
-            max_length=TRAINING_MAX_LENGTH,
+            max_length=tokenizer.model_max_length,
             truncation=True,
         )
         for text in strings
@@ -289,29 +288,33 @@ def train():
     tokenizer = transformers.AutoTokenizer.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
+        model_max_length=training_args.model_max_length,
         padding_side="right",
         use_fast=False,
     )
 
+    pad_status = True
     if tokenizer.pad_token is None:
+        print("tokenizer has not padding token")
+        pad_status = False
         smart_tokenizer_and_embedding_resize(
             special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
             tokenizer=tokenizer,
             model=model,
         )
-
-    # tokenizer.add_special_tokens(
-    #     {
-    #         "eos_token": DEFAULT_EOS_TOKEN,
-    #         "bos_token": DEFAULT_BOS_TOKEN,
-    #         "unk_token": DEFAULT_UNK_TOKEN,
-    #     }
-    # )
+    if tokenizer.eos_token is None:
+        tokenizer.add_special_tokens(
+            {
+                "eos_token": DEFAULT_EOS_TOKEN,
+                "bos_token": DEFAULT_BOS_TOKEN,
+                "unk_token": DEFAULT_UNK_TOKEN,
+            }
+        )
 
     data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
     
     if training_args.quant_type is not None:
-        print("converting the model to qat...")
+        print("converting the model to qat, this may take a while...")
         model, _ = convertModelToQuant(model, compute_dtype=torch.bfloat16, quant_type=training_args.quant_type, q_group_size=training_args.q_group_size)
 
     if training_args.clip is not None:
@@ -333,18 +336,17 @@ def train():
             torch_dtype=torch.bfloat16,
             device_map=device_map,
             max_memory=max_memory,
-            low_cpu_mem_usage=True,
         )
         teacher_model.eval()
         teacher_model.cuda()
         for param in teacher_model.parameters():
             param.requires_grad = False
         teacher_model.config.use_cache = False
-        if tokenizer.pad_token is None:
+        if pad_status is False:
             smart_tokenizer_and_embedding_resize(
                 special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
                 tokenizer=tokenizer,
-                model=model,
+                model=teacher_model,
             )
         model.kd_loss_scale = 1.0
         print("Teacher Model loaded")
@@ -362,7 +364,7 @@ def train():
 
         prob = 0
         for step, batch in tqdm(enumerate(probDataloader)):
-            if step > 20:
+            if step > training_args.cakld_steps:
                 break
             batch = {k: v.to(teacher_model.device) for k, v in batch.items()}
             with torch.no_grad():
@@ -371,11 +373,11 @@ def train():
             prob1 = torch.nn.functional.softmax(logits, dim=-1)
             prob1 = torch.max(prob1, dim=-1).values 
             prob += prob1.mean()
-        mean_prob = prob / 20
+        mean_prob = prob / training_args.cakld_steps
         mean_prob = torch.Tensor(mean_prob.to(teacher_model.device))
         dist.all_reduce(mean_prob, op=dist.ReduceOp.SUM)
         mean_prob = mean_prob / dist.get_world_size()
-        print(f"Get the mean prob {mean_prob}")
+        print(f"Get the coefficient: {mean_prob}")
 
 
     if training_args.train_kd:

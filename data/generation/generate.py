@@ -130,8 +130,8 @@ class DataCollatorForSupervisedDataset(object):
 
     def __call__(self, instances: Sequence[Dict]) -> Dict[str, torch.Tensor]:
         input_ids, labels, ids = tuple([instance[key] for instance in instances] for key in ("input_ids", "labels", 'id'))
-        input_ids = padding(input_ids, self.tokenizer.pad_token_id)
-        labels = padding(labels, IGNORE_INDEX)
+        input_ids = padding(input_ids, self.tokenizer.pad_token_id, cutoff = 256)
+        labels = padding(labels, IGNORE_INDEX, cutoff = 256)
 
         return dict(
             input_ids=input_ids,
@@ -163,12 +163,13 @@ def main(rank, args):
         )
     
     tokenizer = AutoTokenizer.from_pretrained(base_model, use_fast=False)
-    if tokenizer.pad_token is None:
-        smart_tokenizer_and_embedding_resize(
-            special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
-            tokenizer=tokenizer,
-            model=model,
-        )
+    tokenizer.truncation_side = 'left'
+    # if tokenizer.pad_token is None:
+    #     smart_tokenizer_and_embedding_resize(
+    #         special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
+    #         tokenizer=tokenizer,
+    #         model=model,
+    #     )
 
     torch.cuda.set_device(rank)
     model.to(torch.cuda.current_device())
