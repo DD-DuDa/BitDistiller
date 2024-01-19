@@ -164,12 +164,12 @@ def main(rank, args):
     
     tokenizer = AutoTokenizer.from_pretrained(base_model, use_fast=False)
     tokenizer.truncation_side = 'left'
-    # if tokenizer.pad_token is None:
-    #     smart_tokenizer_and_embedding_resize(
-    #         special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
-    #         tokenizer=tokenizer,
-    #         model=model,
-    #     )
+    if tokenizer.pad_token is None:
+        smart_tokenizer_and_embedding_resize(
+            special_tokens_dict=dict(pad_token=DEFAULT_PAD_TOKEN),
+            tokenizer=tokenizer,
+            model=model,
+        )
 
     torch.cuda.set_device(rank)
     model.to(torch.cuda.current_device())

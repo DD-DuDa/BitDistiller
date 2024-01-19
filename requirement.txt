@@ -18,3 +18,7 @@ scikit-learn
 sqlitedict
 tqdm-multiprocess
 zstandard
+
+bitsandbyte
+peft
+fraction
