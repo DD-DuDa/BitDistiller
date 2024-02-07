@@ -19,6 +19,6 @@ sqlitedict
 tqdm-multiprocess
 zstandard
 
-bitsandbyte
+bitsandbytes
 peft
 fraction

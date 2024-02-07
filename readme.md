@@ -53,14 +53,26 @@ Our results is running by following 3 steps:
 
     CUDA_VISIBLE_DEVICES=0 python autoclip.py --model_path <model_path> --calib_dataset pile --quant_type int --w_bit 2 --q_group_size 128 --run_clip --dump_clip ./clip_cache/hf-llama2-7b/int2-g128.pt
     ```
-2. Get the Teacher Generation Data
+2. Get the Teacher Generation Data (Using vllm would be much faster)
     ```bash
+    # vllm
+    python generate_vllm.py --base_model <model_path> --dataset_name wikitext --out_path ./datasets/hf-llama-2-7b/ --max_sample 3000
+
+    python generate_vllm.py --base_model <model_path> --dataset_name alpaca --out_path ./datasets/hf-llama-2-7b/ --max_sample 5000
+
+    # change to path in .py
+    python mix_data.py
+    ```
+
+    ```bash
+    # torchrun
     cd BitDistiller/data/generation
 
     bash generate.sh <model_path> wikitext ../datasets/hf-llama-2-7b/ 16 3000
 
     bash generate.sh <model_path> alpaca ../datasets/hf-llama-2-7b/ 16 5000
 
+    # change to path in .py
     python mix_data.py
     ```
 3. Run KD-base QAT
@@ -85,6 +97,11 @@ Our results is running by following 3 steps:
     CUDA_VISIBLE_DEVICES=0 python autoclip.py --model_path <model_path> --calib_dataset code --quant_type int --w_bit 2 --q_group_size 128 --run_clip --dump_clip ./clip_cache/WizardCoder-7B/int2-g128.pt
     ```
 2. Get the Teacher Generation Data
+    ```bash
+    # vllm
+    python generate_vllm.py --base_model <model_path> --dataset_name code --out_path ./datasets/WizardCoder-7b/ --max_sample 3000
+    ```
+
     ```bash
     cd BitDistiller/data/generation
 
@@ -112,6 +129,11 @@ Our results is running by following 3 steps:
     CUDA_VISIBLE_DEVICES=0 python autoclip.py --model_path <model_path> --calib_dataset gsm8k --quant_type int --w_bit 2 --q_group_size 128 --run_clip --dump_clip ./clip_cache/MetaMath-7B/int2-g128.pt
     ```
 2. Get the Teacher Generation Data
+    ```bash
+    # vllm
+    python generate_vllm.py --base_model <model_path> --dataset_name math --out_path ./datasets/MetaMath-7B/ --max_sample 3000
+    ```
+
     ```bash
     cd BitDistiller/data/generation
 
