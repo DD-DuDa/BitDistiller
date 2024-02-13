@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Function
+from tqdm import tqdm
+import gc
 # import bitsandbytes as bnb
 import torch.nn as nn
 from functools import partial
@@ -65,6 +67,47 @@ def pseudo_quantize_tensor(w, n_bit=8,
         return w, scales.view(w.shape[0], -1), zeros.view(w.shape[0], -1)
     else:
         return w
+
+
+
+@torch.no_grad()
+def real_quantize_model_weight(
+    model, w_bit, q_config,
+    init_only=False
+):
+    from .qmodule import WQLinear
+    from .pre_quant import get_blocks, get_named_linears, set_op_by_name
+    assert q_config["zero_point"], "We only support zero_point quantization now."
+    
+    layers = get_blocks(model)
+    for i in tqdm(range(len(layers)), desc="real weight quantization..." + ("(init only)" if init_only else "")):
+        layer = layers[i]
+        named_linears = get_named_linears(layer)
+        # scale_activations(layer)
+
+        for name, module in named_linears.items():
+            if init_only:
+                q_linear = WQLinear.from_linear(
+                    module, w_bit, q_config['q_group_size'], True)
+                q_linear.to(next(layer.parameters()).device)
+                set_op_by_name(layer, name, q_linear)
+            else:
+                module.cuda()
+                module.weight.data, scales, zeros = pseudo_quantize_tensor(module.weight.data, n_bit=w_bit, get_scale_zp=True, **q_config)
+                # scales = scales.t().contiguous()
+                # zeros = zeros.t().contiguous()
+                q_linear = WQLinear.from_linear(
+                    module, w_bit, q_config['q_group_size'], False, scales, zeros)
+                module.cpu()
+                q_linear.to(next(layer.parameters()).device)
+                set_op_by_name(layer, name, q_linear)
+                torch.cuda.empty_cache()
+                gc.collect()
+                
+    torch.cuda.empty_cache()
+    gc.collect()
+
+
 
 
 def pseudo_quantize_n2f3_tensor(w, q_group_size=-1):

@@ -16,32 +16,33 @@
 1. [Setup](#1-setup)
 2. [Running](#2-running)
 3. [Evaluation](#3-evaluation)
+4. [Inferencce](#4-inference)
 
 ## 1. Setup
 * python 3.9, pytorch >= 1.13
-* pip install -r requirement.txt
+* pip install -r requirement.txt 
+  
+  (You may need to change the version of transformers according to the model config)
 
 ## 2. Running
 
 Our results is running by following 3 steps:
 
 ### 2.1. Asymmetric Quantization
-* Determine the type of quantization: use `nf3` for 3 bits and `int` for 2 bits. Set `w_bit` and `quant_type` accordingly. (For enhanced inference efficiency, opt for `int` at 3 bits, accepting minor accuracy trade-offs)
-  * Utilize Asymmetric format (refer to Asymmetric NormFloat in [SteN2F3Quantizer](https://github.com/DD-DuDa/BitDistiller/blob/main/quantization/quantizer.py#L141))
+* Determine the type of quantization: use `nf3` for 3 bits and `int` for 2 bits. Set `w_bit` and `quant_type` accordingly.
+
 * Perform clipping before training and save the clipping values using dump_clip (see `quantization/autoclip.py`).
 
-**Note: This step can match or surpass the low-bit PTQ quantization results of GPTQ and AWQ.
+>This step can match or surpass the low-bit PTQ quantization results of GPTQ and AWQ.
 
 ### 2.2. Generating Teacher Data
 * For QAT, create data using the Teacher Model (BF16). The data varies depending on the model (see `data/generation`).
 
-**Upcoming Feature: Accelerating this step using VLLM.
 
 ### 2.3. KD-base QAT
 * Detailed procedure available in `train/`
 
 
----
 ### Example Srcipts
 
 <details>
@@ -152,8 +153,11 @@ Our results is running by following 3 steps:
 </details>
 
 ## 3. Evaluation
+### Example Srcipts
 <details>
   <summary>LLaMA-2</summary>
+
+
 
 * Test PPL on WikiText-2
   ```bash
@@ -194,3 +198,6 @@ Our results is running by following 3 steps:
     bash test.sh ../../train/ckpts/MetaMath-7b/int2-g128/ ./preds/7b/int2-g128/
     ```
 </details>
+
+
+## 4. Inference
