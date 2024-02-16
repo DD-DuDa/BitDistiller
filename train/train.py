@@ -77,24 +77,24 @@ class TrainingArguments(transformers.TrainingArguments):
     )
     q_group_size: int = field(
         default=128,
-        metadata={"help": "How many bits to use."}
+        metadata={"help": "Quantization Group Size."}
     )
     quant_type: str = field(
-        default="nf4",
-        metadata={"help": "Quantization data type to use. Should be one of `fp4` or `nf4`."}
+        default="int2-asym",
+        metadata={"help": "Quantization data type to use. Should be one of `int2-asym` or `ste-n2f3`."} # see quantization/qlinear.py
     )
     clip: str = field(
         default=None,
-        metadata={"help": "clip"}
+        metadata={"help": "The path of clip cache"}
     )
-    train_kd: bool = field(default=False, metadata={"help": 'knowledge_distill'})
+    train_kd: bool = field(default=False, metadata={"help": 'Whether to use KD to QAT'})
     kd_tmp: int = field(
         default=1,
-        metadata={"help": "kd_tmp"}
+        metadata={"help": "Temperature of KD"}
     )
     kd_loss_type: str = field(
         default=None,
-        metadata={"help": "awq"}
+        metadata={"help": "Type of loss function when KD-QAT"}
     )
     cakld_steps: int = field(
         default=10,
