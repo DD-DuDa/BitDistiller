@@ -10,7 +10,7 @@
 ## Comparing reasoning benchmarks with other methods
 ![overview](./imgs/result.png)
 
-## Examples on 2-bit inference of an Domain-specific LLM (MetaMath)
+## Example on 2-bit inference of a Domain-specific LLM (MetaMath)
 ![gif](./imgs/Bitdistiller.gif)
 
 ## Contents
