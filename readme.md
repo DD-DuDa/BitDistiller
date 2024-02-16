@@ -6,11 +6,12 @@
 
 ## Comparing general language tasks with other methods
 ![overview](./imgs/result7b.jpg)
-![overview](./imgs/result2.png)
+<!-- ![overview](./imgs/result2.png)-->
 ## Comparing reasoning benchmarks with other methods
 ![overview](./imgs/result.png)
 
-
+## Examples on 2-bit inference of an Domain-specific LLM (MetaMath)
+![gif](./imgs/Bitdistiller.gif)
 
 ## Contents
 1. [Setup](#1-setup)
@@ -202,3 +203,8 @@ Our results is running by following 3 steps:
 
 ## 4. Inference
 Please see `inference/`
+
+
+
+## Reference
+If you find BitDistiller useful or relevant to your research, please kindly cite our paper:

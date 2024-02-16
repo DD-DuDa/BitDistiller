@@ -3,6 +3,8 @@
 
 TinyChat leverages advanced CUDA and FP16 optimizations for enhanced chatbot efficiency. This project builds upon [TinyChat](https://github.com/mit-han-lab/llm-awq/tree/main/tinychat) by MIT-HAN Lab, incorporating efficient CUDA kernels and quantized model weights for improved performance.
 
+![gif](../imgs/Bitdistiller.gif)
+
 # Getting Started
 1. Install efficient CUDA kernel and optimized FP16 kernels (e.g. layernorm, positional encodings).
     ```bash
