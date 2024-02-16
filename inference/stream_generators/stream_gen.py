@@ -78,7 +78,7 @@ def StreamGenerator(
             # or model.__class__.__name__.lower() == "llamaforcausallm"
         ):
             if i == 0:  # Context Stage
-                out = model(inputs, use_cache=True)
+                out = model(inputs, use_cache=True, past_key_values=past_key_values)
                 logits = out.logits
                 past_key_values = out.past_key_values
             else:
@@ -90,6 +90,7 @@ def StreamGenerator(
                 logits = out.logits
                 past_key_values = out.past_key_values
         else:
+            # raise 1
             out = model(inputs, start_pos=start_pos)
             start_pos += out.shape[1]
             logits = out

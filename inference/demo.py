@@ -208,8 +208,15 @@ if __name__ == "__main__":
             device_map="auto"
         )
         model = loaded_model
+        # loaded_model = AutoModelForCausalLM.from_pretrained(
+        #     args.model_path,
+        #     config=config,
+        #     torch_dtype=torch.float16,
+        #     trust_remote_code=True,
+        # )
         # model = model_type_dict[args.model_type.lower()](config).half().to(args.device)
         # model.load_state_dict(loaded_model.state_dict())
+
 
     # device warm up
     # device_warmup(args.device)

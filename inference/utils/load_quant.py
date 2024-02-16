@@ -158,6 +158,9 @@ def load_awq_llama_fast(model, checkpoint, w_bit, group_size, device):
 
     return model.to(device)
 
+
+
+
 def autotune_warmup(model):
 	"""
 	The Triton kernels autotune themselves for specific input sizes.  But this takes time.
