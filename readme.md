@@ -208,3 +208,12 @@ Please see `inference/`
 
 ## Reference
 If you find BitDistiller useful or relevant to your research, please kindly cite our paper:
+`
+@misc{du2024bitdistiller,
+      title={BitDistiller: Unleashing the Potential of Sub-4-Bit LLMs via Self-Distillation}, 
+      author={Dayou Du and Yijia Zhang and Shijie Cao and Jiaqi Guo and Ting Cao and Xiaowen Chu and Ningyi Xu},
+      year={2024},
+      eprint={2402.10631},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}`
