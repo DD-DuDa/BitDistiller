@@ -1,4 +1,4 @@
-# BitDistiller: Unleashing the Potential of Sub-4-Bit LLMs via Self-Distillation [paper](http://arxiv.org/abs/2402.10631)
+# BitDistiller: Unleashing the Potential of Sub-4-Bit LLMs via Self-Distillation [[paper]](http://arxiv.org/abs/2402.10631)
 
 **Implementing efficient sub-4-bit weight quantization (3 / 2 bits) in LLMs through advanced QAT-based Self-Distillation techniques.**
 
