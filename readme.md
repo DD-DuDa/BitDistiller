@@ -1,4 +1,4 @@
-# BitDistiller: Unleashing the Potential of Sub-4-Bit LLMs via Self-Distillation [[paper]](http://arxiv.org/abs/2402.10631)
+# [ACL 2024] BitDistiller: Unleashing the Potential of Sub-4-Bit LLMs via Self-Distillation [[paper]](http://arxiv.org/abs/2402.10631)
 
 **Implementing efficient sub-4-bit weight quantization (3 / 2 bits) in LLMs through advanced QAT-based Self-Distillation techniques.**
 
@@ -12,6 +12,10 @@
 
 ## Example on 2-bit inference of a Domain-specific LLM (MetaMath)
 ![gif](./imgs/Bitdistiller.gif)
+
+## News
+* [2024/05] 🔥 BitDistiller has been accepted to ACL main 2024! 
+
 
 ## Contents
 1. [Setup](#1-setup)
